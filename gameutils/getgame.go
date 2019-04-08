@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 )
 
 type Game struct {
@@ -16,12 +15,12 @@ type Game struct {
 }
 
 func getGameIDFromName(name string) float64 {
-	data, err := os.Open("data/data.json")
+	data, err := http.Get("https://raw.githubusercontent.com/wilswe/turbo-playercount-api/master/data/data.json")
 	if err != nil {
 		panic(err)
 	}
-	defer data.Close()
-	byteValue, _ := ioutil.ReadAll(data)
+	defer data.Body.Close()
+	byteValue, _ := ioutil.ReadAll(data.Body)
 
 	var result map[string]interface{}
 	json.Unmarshal([]byte(byteValue), &result)
