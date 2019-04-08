@@ -15,7 +15,11 @@ func gameHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+
 	w.Header().Set("Content-Type", "application/json")
+	if gg.ID == 404 {
+		w.WriteHeader(http.StatusNotFound)
+	}
 	w.Write(gameJSON)
 }
 
