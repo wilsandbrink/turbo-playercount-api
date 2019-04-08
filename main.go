@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"log"
 	"net/http"
 
@@ -11,7 +11,12 @@ import (
 func gameHandler(w http.ResponseWriter, r *http.Request) {
 	var name = r.URL.Path[1:]
 	var gg = gameutils.GetGame(name)
-	fmt.Fprintf(w, "Game: %s, ID: %v, Playercount: %v", gg.Name, gg.ID, gg.Playercount)
+	gameJSON, err := json.Marshal(gg)
+	if err != nil {
+		panic(err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(gameJSON)
 }
 
 func main() {
