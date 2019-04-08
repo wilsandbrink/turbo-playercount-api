@@ -33,7 +33,7 @@ func getGameIDFromName(name string) (string, float64) {
 	return "notfound", 404
 }
 
-// GetGame takes an id and string and return a game
+// GetGame takes an id and name and returns a game
 func GetGame(id float64, name string) Game {
 	if id == 404 {
 		g := Game{"Not found", 404, 0}
@@ -64,7 +64,7 @@ func GetGame(id float64, name string) Game {
 }
 
 func main() {
-	name, id := (getGameIDFromName("Rust"))
+	name, id := getGameIDFromName("")
 	var gg = GetGame(id, name)
 	fmt.Printf("Game: %s, ID: %v, Playercount: %v", gg.name, gg.id, gg.playercount)
 }
