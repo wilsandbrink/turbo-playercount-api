@@ -34,9 +34,10 @@ func getGameIDFromName(name string) (string, float64) {
 }
 
 // GetGame takes an id and string and return a game
-func GetGame(id float64, name string) {
+func GetGame(id float64, name string) Game {
 	if id == 404 {
-		//g := Game{"Not found", 404, 0}
+		g := Game{"Not found", 404, 0}
+		return g
 	}
 	url := fmt.Sprintf("https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=%v", id)
 	resp, err := http.Get(url)
@@ -48,11 +49,22 @@ func GetGame(id float64, name string) {
 
 	var result map[string]interface{}
 	json.Unmarshal([]byte(byteValue), &result)
-	respmap = map[string]interface{}
-	fmt.Print(respmap["player_count"])
+	var ree = result["response"]
+	reemaps := ree.(map[string]interface{})
+
+	pc, ok := reemaps["player_count"].(float64)
+
+	if ok {
+		g := Game{name, id, pc}
+		return g
+	}
+
+	g := Game{"Not found", 404, 0}
+	return g
 }
 
 func main() {
 	name, id := (getGameIDFromName("Rust"))
-	GetGame(id, name)
+	var gg = GetGame(id, name)
+	fmt.Printf("Game: %s, ID: %v, Playercount: %v", gg.name, gg.id, gg.playercount)
 }
