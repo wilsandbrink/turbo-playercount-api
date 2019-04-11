@@ -9,17 +9,17 @@ import (
 )
 
 func main() {
-	for {
-		reader := bufio.NewReader(os.Stdin)
-		fmt.Print("Enter name of game: ")
-		text, _ := reader.ReadString('\n')
-		text = text[:len(text)-1]
-		fmt.Println(text)
-		var game = gameutils.GetGame(text)
-		if text == "exit" {
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		if scanner.Text() == "exit" {
 			os.Exit(0)
-		} else {
-			fmt.Printf("Game: %s, ID: %v, Concurrent players: %v\n", game.Name, game.ID, game.Playercount)
 		}
+		var game = gameutils.GetGame(scanner.Text())
+		fmt.Printf("Game: %s, Concurrent players: %v, ID: %v\n", game.Name, game.Playercount, game.ID)
+
+	}
+
+	if scanner.Err() != nil {
+		// handle error.
 	}
 }
