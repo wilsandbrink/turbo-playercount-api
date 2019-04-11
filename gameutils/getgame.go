@@ -1,4 +1,4 @@
-// Package gameutils is not meant to be imported outside of turbo-playercount-api due to data folder
+// Package gameutils used to fetch playercount and id of a game using only the name of the game.
 package gameutils
 
 import (
@@ -8,6 +8,7 @@ import (
 	"net/http"
 )
 
+// Game struct idk was forced by my linter to comment here xddddd
 type Game struct {
 	Name        string
 	ID          float64
@@ -33,7 +34,7 @@ func getGameIDFromName(name string) float64 {
 	return 404
 }
 
-// GetGame takes an id and name and returns a game
+// GetGame name and returns a game struct
 func GetGame(name string) Game {
 	var id = getGameIDFromName(name)
 	if id == 404 {
