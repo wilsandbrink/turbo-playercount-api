@@ -16,7 +16,6 @@ func main() {
 		}
 		var game = gameutils.GetGame(scanner.Text())
 		fmt.Printf("Game: %s, Concurrent players: %v, ID: %v\n", game.Name, game.Playercount, game.ID)
-
 	}
 
 	if scanner.Err() != nil {
