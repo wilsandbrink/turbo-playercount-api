@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 )
 
 // Game struct idk was forced by my linter to comment here xddddd
@@ -16,12 +17,12 @@ type Game struct {
 }
 
 func getGameIDFromName(name string) float64 {
-	data, err := http.Get("https://raw.githubusercontent.com/wilswe/turbo-playercount-api/master/data/data.json")
+	data, err := os.Open("data/data.json")
 	if err != nil {
 		panic(err)
 	}
-	defer data.Body.Close()
-	byteValue, _ := ioutil.ReadAll(data.Body)
+	defer data.Close()
+	byteValue, _ := ioutil.ReadAll(data)
 
 	var result map[string]interface{}
 	json.Unmarshal([]byte(byteValue), &result)
